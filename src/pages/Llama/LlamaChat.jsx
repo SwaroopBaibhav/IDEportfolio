@@ -24,7 +24,7 @@ function LlamaChat() {
                     value={input} 
                     onChange={(e) => setInput(e.target.value)} 
                 />
-                <button onClick={handleInput}>Send</button>
+                <button onClick={handleInput} className='bg-blue-500 hover:bg-blue-800'>Send</button>
                 <div id='response'>
                     {response}
                 </div>
