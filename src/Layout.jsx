@@ -5,14 +5,14 @@ import React from 'react'
 
 function Layout() {
   return (
-    <>
+    <div className=" flex flex-col h-screen">
         <Header />
-        <div className="flex">
+        <div className="flex overflow-hidden">
             <SideBar />
             <Outlet />
         </div>
         <Footer />
-    </>
+    </div>
   )
 }
 

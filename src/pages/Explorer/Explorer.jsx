@@ -50,10 +50,9 @@ function Explorer() {
 
 
   return (
-    <div className="h-screen bg-slate-950 w-48 text-sm">
+    <div className="bg-slate-950 w-48 text-sm">
     <div className=" text-white">
-        <p className='text-white font-thin ml-5'>Explorer</p>
-        <div className='flex flex-col gap-2 my-3'>
+        <div className='flex flex-col gap-2'>
             {dirs.map((e) => e.isDirectory ? (
                 <div className="flex content-center hover:bg-slate-700 hover:cursor-pointer">
                     <div className='' onClick={() => handelToggle(e)}>
