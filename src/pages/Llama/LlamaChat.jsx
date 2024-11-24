@@ -1,35 +1,52 @@
 import React, { useState } from 'react';
 import { HfInference } from "@huggingface/inference";
-import { useLoaderData } from 'react-router-dom';
 
 function LlamaChat() {
-    const data = useLoaderData();
 
-    const [response, setResponse] = useState('');
     const [input, setInput] = useState('');
+    const [chatting, setChatting] = useState([])
 
     const handleInput = async (e) => {
         e.preventDefault();
-        const res = await getResponse(input);
-        setResponse(res);
+        setChatting((prev) => [...prev, {content: input, role: 'user'}])
         setInput('');
+        const res = await getResponse(input);
+        setChatting((prev) => [...prev, {content: res.content, role: res.role}])
+        // console.log(chatting);
     };
 
     return (
-        <div>
-            <div className='flex flex-col gap-2 relative'>
-                <input 
-                    className='text-black'
-                    type="text" 
-                    value={input} 
-                    onChange={(e) => setInput(e.target.value)} 
-                />
-                <button onClick={handleInput} className='bg-blue-500 hover:bg-blue-800'>Send</button>
-                <div id='response'>
-                    {response}
-                </div>
+        <div className="flex flex-col h-full overflow-hidden">
+            <div className='flex flex-col gap-3'>
+                {chatting.map((message, role) => {      // here the role is actualy the index (reference => 10/trash.js)      
+                    return message.role === 'user' ? (
+                    <div key={role} id="response" className="flex-1 p-2 overflow-auto mx-2 bg-blue-400 text-white rounded break-words">
+                        {message.content}
+                    </div>
+                    ) : (
+                        <div id="user" className="flex-1 p-2 overflow-auto mx-2 bg-green-500 text-white rounded break-words">
+                        {message.content}
+                    </div>
+                    )
+                })}
             </div>
+        {/* Input Section */}
+        <div className="mt-2">
+          <input
+            className="w-full p-2 rounded text-black"
+            type="text"
+            placeholder="This is your AI"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button
+            onClick={handleInput}
+            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white w-full p-2 rounded"
+          >
+            Send
+          </button>
         </div>
+      </div>
     );
 }
 
@@ -46,7 +63,9 @@ export const getResponse = async (query) => {
         max_tokens: 100
     });
 
-    return chatCompletion.choices[0].message.content;
+    // console.log(chatCompletion.choices[0].message.role);
+    
+    return {content: chatCompletion.choices[0].message.content, role: chatCompletion.choices[0].message.role}
 };
 
 export default LlamaChat;
