@@ -16,36 +16,39 @@ function LlamaChat() {
     };
 
     return (
-        <div className="flex flex-col h-full overflow-hidden">
-            <div className='flex flex-col gap-3'>
+        // making the h-screen makes it scrollable, while h-full makes it useless
+        <div className="flex flex-col h-screen overflow-hidden"> 
+
+            <div className='flex-1 overflow-y-auto p-2 h-fit'>
+                
                 {chatting.map((message, role) => {      // here the role is actualy the index (reference => 10/trash.js)      
                     return message.role === 'user' ? (
-                    <div key={role} id="response" className="flex-1 p-2 overflow-auto mx-2 bg-blue-400 text-white rounded break-words">
+                    <div key={role} id="response" className="flex-1 p-2 overflow-auto m-1 bg-blue-400 text-white rounded break-words">
                         {message.content}
                     </div>
                     ) : (
-                        <div id="user" className="flex-1 p-2 overflow-auto mx-2 bg-green-500 text-white rounded break-words">
+                        <div id="user" className="flex-1 p-2 overflow-auto m-1 bg-green-500 text-white rounded break-words">
                         {message.content}
                     </div>
                     )
                 })}
+            </div>  
+
+            <div className="mt-2 flex flex-col fixed bottom-5 mb-3 px-2">
+                <input
+                    className="w-full p-2 rounded text-black"
+                    type="text"
+                    placeholder="This is your AI"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                />
+                <button
+                    onClick={handleInput}
+                    className="mt-2 bg-blue-500 hover:bg-blue-700 text-white w-full p-2 rounded"
+                >
+                    Send
+                </button>
             </div>
-        {/* Input Section */}
-        <div className="mt-2">
-          <input
-            className="w-full p-2 rounded text-black"
-            type="text"
-            placeholder="This is your AI"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button
-            onClick={handleInput}
-            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white w-full p-2 rounded"
-          >
-            Send
-          </button>
-        </div>
       </div>
     );
 }

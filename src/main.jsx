@@ -5,9 +5,8 @@ import './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Layout from './Layout.jsx';
 import SidebarStyle from './components/SidebarComponent/SidebarStyle.jsx';
-import { Explorer } from './pages/index.js';
-import Search, { loadRepos } from './pages/Search/Search.jsx';
-import LlamaChat from './pages/Llama/LlamaChat.jsx';
+import { loadRepos } from './pages/Search/Search.jsx';
+import {Surprise, LlamaChat, Explorer, Search} from './pages/index.js';
 
 
 
@@ -17,7 +16,7 @@ const routes = createBrowserRouter(
       <Route path='' element={<SidebarStyle heading='Explorer' children={<Explorer />}/>}/>
       <Route path='search' element={<SidebarStyle heading='My Repositories' children={<Search />} />} loader={loadRepos} />
       <Route path='chatbot' element={<SidebarStyle heading='Llama Chatbot' children={<LlamaChat/ >} />}/>
-      <Route path='other'/>
+      <Route path='other' element={<SidebarStyle heading='Surprise' children={<Surprise/ >} />}/>
     </Route>
   ),
   
