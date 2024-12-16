@@ -12,7 +12,13 @@ function LlamaChat() {
         setInput('');
         const res = await getResponse(input);
         setChatting((prev) => [...prev, {content: res.content, role: res.role}])
-        // console.log(chatting);
+
+        // const res2 = await query({inputs: {question: input, context: JSON.stringify(chatting.filter((e) => e.role === 'user'))}});
+        console.log (chatting.filter((e) => e.role === 'user'));
+
+        // query({inputs: {question: input, context: JSON.stringify(chatting.filter((e) => e.role === 'user'))}}).then((response) => {
+        //     console.log(JSON.stringify(response));
+        // });
     };
 
     return (
@@ -71,4 +77,23 @@ export const getResponse = async (query) => {
     return {content: chatCompletion.choices[0].message.content, role: chatCompletion.choices[0].message.role}
 };
 
+async function query(data) {
+	const response = await fetch(
+		"https://api-inference.huggingface.co/models/deepset/roberta-base-squad2",
+		{
+			headers: {
+				Authorization: "Bearer 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",
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+			body: JSON.stringify(data),
+		}
+	);
+	const result = await response.json();
+	return result;
+}
+
+
 export default LlamaChat;
+
+
